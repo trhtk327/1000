@@ -1,40 +1,458 @@
+
+
+
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="he">
 <head>
-    <meta charset="UTF-8">
-    <title>Perchance AI Embed</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> חידון הארי פוטר והאסיר מאזקבאן</title>
 
-    <style>
-        body {
-            margin: 0;
-            padding: 20px; /* שוליים מסביב */
-            background-color: #111; /* רקע יפה */
-            font-family: Arial, sans-serif;
-        }
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
 
-        .container {
-            width: 100%;
-            height: calc(100vh - 40px); /* גובה כמעט מלא */
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-        }
+body{
+font-family:Arial;
+height:100vh;
+overflow:hidden;
+display:flex;
+justify-content:center;
+align-items:center;
+background:url("https://i.postimg.cc/5200s65P/8f302e978e37643e9c244908f69f4cfc.jpg") center/cover no-repeat fixed;
+color:white;
+}
 
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-    </style>
+.container{
+width:95%;
+max-width:900px;
+background:rgba(0,0,0,0.65);
+backdrop-filter:blur(10px);
+padding:35px;
+border-radius:18px;
+text-align:center;
+box-shadow:0 0 40px rgba(0,0,0,0.9);
+}
+
+#end {
+    text-align: center;
+    padding: 40px 25px;
+    max-width: 420px;
+    margin: 40px auto;
+    background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+    color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    font-family: Arial, sans-serif;
+}
+
+/* ציון */
+#score {
+    font-size: 60px;
+    font-weight: bold;
+    margin: 20px 0;
+    background: linear-gradient(45deg, #00ffcc, #00c6ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 20px rgba(0,255,200,0.3);
+}
+
+/* הודעה */
+#msg {
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+/* פירוט */
+#detail {
+    font-size: 16px;
+    margin-bottom: 20px;
+    background: rgba(255,255,255,0.05);
+    padding: 12px;
+    border-radius: 10px;
+}
+
+/* זמן */
+#time {
+    font-size: 18px;
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+/* כפתורים */
+.small-btn {
+    margin: 10px 5px;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(45deg, #00c6ff, #0072ff);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.small-btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+
+/* תיבת שם */
+#username {
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    margin: 15px 0;
+    width: 85%;
+    text-align: center;
+    font-size: 16px;
+    outline: none;
+}
+
+.start-btn{
+font-size:32px;
+padding:18px 70px;
+background:#00ffcc;
+color:black;
+border:none;
+border-radius:14px;
+cursor:pointer;
+font-weight:bold;
+}
+
+/* בסיס לכפתורי סיום */
+.action-btn {
+    margin: 10px 8px;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    color: white;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+
+/* כפתור שתף */
+.share-btn {
+    background: linear-gradient(45deg, #25D366, #128C7E);
+}
+
+.share-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+}
+
+/* כפתור שחק שוב */
+.replay-btn {
+    background: linear-gradient(45deg, #ff7b00, #ff3d00);
+}
+
+.replay-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+}
+
+.answer{
+background:rgba(255,255,255,0.1);
+padding:14px;
+margin:10px 0;
+border-radius:10px;
+cursor:pointer;
+transition:0.25s;
+text-align:right;
+position:relative;
+}
+.answer:hover{background:rgba(255,255,255,0.25)}
+
+.correct{background:#00ff88!important;color:black}
+.wrong{background:#ff5252!important}
+
+.mark{
+position:absolute;
+left:15px;
+top:50%;
+transform:translateY(-50%);
+}
+
+.progress{height:10px;background:rgba(255,255,255,0.2);border-radius:10px;margin-bottom:20px;}
+.bar{height:100%;background:#00c6ff;border-radius:10px;}
+
+.hidden{display:none}
+
+.credit{
+position:fixed;
+bottom:10px;
+width:100%;
+text-align:center;
+font-weight:bold;
+}
+
+#timerBig{
+display:none;
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:80px;
+z-index:999;
+}
+
+#timerSmall{
+display:none;
+position:fixed;
+top:10px;
+left:50%;
+transform:translateX(-50%);
+background:rgba(0,0,0,0.6);
+padding:8px 18px;
+border-radius:10px;
+}
+
+.history{margin-top:20px;background:#111;padding:10px;border-radius:10px;}
+.row{display:flex;justify-content:space-between;padding:6px;border-bottom:1px solid #333;}
+.row.header{font-weight:bold;border-bottom:2px solid #555;}
+</style>
 </head>
+
 <body>
 
-    <div class="container">
-        <iframe 
-            src="https://perchance.org/ai-text-to-image-generator"
-            allowfullscreen>
-        </iframe>
-    </div>
+<div id="timerBig">00:00</div>
+<div id="timerSmall">00:00</div>
+
+<div class="container" id="box">
+
+<div id="start">
+<h1> חידון הארי פוטר והאסיר מאזקבאן </h1><br>
+<button class="start-btn" onclick="startQuiz()">התחל חידון</button><br><br>
+<button class="small-btn" onclick="toggleTransparent()">רקע שקוף</button>
+</div>
+
+<div id="quiz" class="hidden">
+<div class="progress"><div id="bar" class="bar"></div></div>
+<div id="qnum"></div>
+<h2 id="q"></h2>
+<div id="answers"></div>
+<button class="small-btn" onclick="skip()">דלג</button>
+</div>
+
+<div id="end" class="hidden">
+<h1>סיום החידון</h1>
+<div id="score"></div>
+<div id="msg"></div>
+<div id="detail"></div>
+<div id="time"></div>
+
+<input id="username" placeholder="הכנס שם"><br>
+<button class="action-btn share-btn" onclick="shareScore()">שתף עם חברים</button>
+<button class="action-btn replay-btn" onclick="location.reload()">שחק שוב</button>
+<div id="historyBox" class="history"></div>
+</div>
+
+</div>
+
+<div class="credit">נוצר על ידי אריאל מאירי</div>
+
+<script>
+
+let transparent=false;
+function toggleTransparent(){
+let box=document.getElementById("box");
+if(!transparent){
+box.style.background="transparent";
+}else{
+box.style.background="rgba(0,0,0,0.65)";
+}
+transparent=!transparent;
+}
+
+let i=0,score=0,wrong=0,skipped=0;
+let startTime,timerInterval;
+
+function startQuiz(){
+document.getElementById("start").classList.add("hidden");
+document.getElementById("quiz").classList.remove("hidden");
+
+startTime=Date.now();
+timerInterval=setInterval(updateTimer,1000);
+
+document.getElementById("timerSmall").style.display="block";
+
+showQ();
+}
+
+function updateTimer(){
+let diff=Math.floor((Date.now()-startTime)/1000);
+let m=Math.floor(diff/60);
+let s=diff%60;
+let t=`${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+document.getElementById("timerSmall").innerText=t;
+}
+
+
+const questions = [
+
+{q:"כאשר לופין מגיע לצריף המצווח, מהו ההסבר המדויק ביותר לכך שלא שתה את שיקוי הזאב באותו ערב?",a:["לופין יצא מיד בעקבות גילוי פיטר במפה ולא חזר לקחת את השיקוי","סנייפ לא הצליח להכין את השיקוי בזמן","סנייפ מחבל בשיקוי כדי להסגיר אותו","לופין לא ראה צורך לקחת אותו באותו לילה"],c:0},
+
+{q:"איזה פרט במפת הקונדסאים גרם ללופין להבין שסיריוס אינו פועל לבדו?",a:["היעלמות שמו של סיריוס מהמפה","הופעת שמו של פיטר פטיגרו לצד רון","תנועה חריגה של רון בלבד","הופעת שמו של הארי במקום בלתי צפוי"],c:1},
+
+{q:"במהלך העימות בצריף, מהו הגורם הישיר שמונע מסיריוס ולופין להרוג את פיטר במקום?",a:["כניסתו של סנייפ לחדר","דרישתו של הארי שלא יהרגו אותו","פחד להפוך  לרוצחים ","חשש להעדר הוחכות שפיטר הרג את ג'יימס והיה אנימגוס"],c:1},
+
+{q:"איזו התנהגות של קרוקשנקס במהלך השנה מקבלת הסבר חדש בפרק 17?",a:["היעלמותו לפרקי זמן ארוכים","פחד מכלבים","ניסיון עקבי לתקוף את סקאברס","תוקפנות אקראית כלפי רון"],c:2},
+
+{q:"לפי דבריו של סיריוס, מה הייתה הסיבה האסטרטגית של פיטר לבחור להסתתר דווקא כחיית מחמד של משפחת ויזלי?",a:["כדי לקבל עדכונים על משרד הקסמים","כדי לרגל אחרי הארי באופן ישיר","כדי לחיות בקרבת קוסמים מבלי לעורר חשד","כדי לנקום במשפחת בלק"],c:2},
+
+{q:"איזה דפוס חשיבה מנחה את סנייפ כאשר הוא מאשים את הארי בשיתוף פעולה עם סיריוס?",a:["השוואה מתמשכת בין הארי לאביו ג'יימס","שינאה מתמדת של סנייפ להארי","פחד אישי מסיריוס","הסתמכות על ראיות פיזיות"],c:0},
+
+{q:"מהו הרצף המדויק של האירועים שמאפשר לפיטר פטיגרו להימלט לאחר חשיפתו?",a:["הופעת סוהרסנים → פאניקה → הפיחתו לעכבר בריחה","שינויו של לופין לאיש זאב → בלבול כללי → הפיכתו לעכבר ובריחה","התקפת סנייפ → חושך → בריחה","כישוף של הארי → פיצוץ → בריחה"],c:1},
+
+{q:"מדוע הסוהרסנים מתקרבים דווקא לאזור האגם בסצנת השיא?",a:["בשל נוכחותו של סיריוס והמצב הרגשי הקיצוני","כי זיהו את פיטר פטיגרו","עקב שימוש בכישוף חזק באזור","בעקבות הוראה ממשרד הקסמים"],c:0},
+
+{q:"איזה זיכרון בוחר הארי להשתמש בו כדי לייצר פטרונוס בשלבי הלמידה הראשונים?",a:["קבלת המכתב הראשון מהוגוורטס","פגישה עם רון והרמיוני","זיכרון הוריו","רגע זכייה בקווידיץ׳"],c:0},
+
+{q:"כאשר הארי מתמודד עם הסוהרסנים ליד האגם, מהו ההסבר הנכון לכך שהפטרונוס החזק מופיע בסופו של דבר?",a:["סיריוס משתמש בכישוף","הארי התחזק והטיל את הכישוף בלי לשים לב","לופין מציל אותו ברגע האחרון","הארי בעתיד חוזר בזמן ומבצע את הכישוף"],c:3},
+
+{q:"איזה פרט חזותי מוביל את הארי למסקנה השגויה שאביו הוא זה שהציל אותו?",a:["דמות שנראית מרחוק ודומה לו","קול מוכר","צורת הפטרונוס בלבד","מילים שנאמרו לו קודם"],c:0},
+
+{q:"מהו היעד הכפול של השימוש במחולל הזמן לפי רמזי דמבלדור?",a:["להציל את הארי בלבד","לעצור את פיטר ולהזהיר את העבר","לתקן את טעותו של סנייפ","להציל שני יצורים שנידונו למוות"],c:3},
+
+{q:"למה הרמיוני מדגישה שוב ושוב את הסכנה שבשינוי העבר?",a:["כי הם עלולים להיתקע בעבר בגלל שהווה הישתנה","כי זה עלול לחשוף אותם","כי שינוי אירועים עלול כי הם יכולים לגרום למותם בעתיד(הווה) על  ידי שינוי העבר","כי מחולל הזמן מוגבל בשימוש"],c:2},
+
+{q:"איזו פעולה מדויקת מאפשרת את הצלתו של באקביק?",a:["שחרורו לפני שהטליין מגיע להוגוורסט","שחרורו בשקט רגע לפני ביצוע גזר הדין","שימוש בכישוף הסוואה","הטלת כישוף על יצור חי אחר שיראה כמוהו"],c:1},
+
+{q:"מהו תפקידו המכריע של באקביק לאחר הצלתו?",a:["נשיאת סיריוס לבריחה מהטירה","הגנה על הארי","תקיפת אנשי משרד הקסמים","הסחת דעת לסוהרסנים"],c:0},
+
+{q:"מדוע דמבלדור נמנע מלתת הוראות מפורשות להארי ולהרמיוני?",a:["כי אינו בטוח בתוכנית","כי אינו רוצה לקחת אחריות","כי התערבות ישירה עלולה לשבש את רצף הזמן","כי הוא בוחן את יכולותיהם"],c:2},
+
+{q:"איזו תכונה בולטת בהתנהלותו של סנייפ בצריף המצווח?",a:["כעס על לופין שבעד סיריוס","פחד מסיריוס","רצון נקמה חזק בפיטר ( בגלל מריבת ילדות)","סירוב עיקש לקבל גרסה הסותרת את אמונותיו"],c:3},
+
+{q:"מהו המאפיין המרכזי של הקשר בין לופין, סיריוס, ג'יימס ופיטר כפי שמתואר בפרק?",a:["קשר משפחתי","חברות עמוקה שהתבטאה גם בהפיכתם לאנימאגים","יריבות ארוכת שנים","חברות עמוקה בילדותם שהתבטאה בשנאה לסנייפ "],c:1},
+
+{q:"איזו ראיה נסיבתית הובילה להרשעתו של סיריוס מלכתחילה?",a:["הימצאותו בזירת הפיצוץ לאחר מות פטיגרו לכאורה","עדות ישירה","שהיה בזירת רצח הפיטרים","קסם שנמצא על שרביטו"],c:0},
+
+{q:"מהו הגורם הקריטי היחיד שיכול להוביל לזיכויו של סיריוס בעתיד?",a:["עדות של הארי","לכידתו והצגתו של פיטר פטיגרו חי","תמיכת דמבלדור","דמבלדור יקח חסות עליו"],c:1}
+
+];
+function showQ(){
+let q=questions[i];
+document.getElementById("q").innerText=q.q;
+document.getElementById("qnum").innerText=`שאלה ${i+1}/20`;
+document.getElementById("bar").style.width=(i/20*100)+"%";
+
+let html="";
+q.a.forEach((t,index)=>{
+html+=`<div class="answer" onclick="answer(${index})">${t}</div>`;
+});
+document.getElementById("answers").innerHTML=html;
+}
+
+function answer(index){
+let correct=questions[i].c;
+let all=document.querySelectorAll(".answer");
+
+all.forEach((el,n)=>{
+if(n==correct){el.classList.add("correct");}
+else el.classList.add("wrong");
+});
+
+if(index==correct)score+=5;
+else wrong++;
+
+setTimeout(next,800);
+}
+
+function skip(){skipped++;next();}
+
+function next(){
+i++;
+if(i<questions.length)showQ();
+else finish();
+}
+
+function finish(){
+clearInterval(timerInterval);
+
+document.getElementById("quiz").classList.add("hidden");
+document.getElementById("end").classList.remove("hidden");
+
+let time=document.getElementById("timerSmall").innerText;
+
+let parts=time.split(":");
+let totalSeconds=(parseInt(parts[0])*60)+(parseInt(parts[1]));
+
+// שליחה (רק מעל 15 שניות)
+if(totalSeconds>=15){
+document.getElementById("scoreInput").value=score;
+document.getElementById("timeInput").value=time;
+document.getElementById("nameInput").value=document.getElementById("username").value||"חידון כישופים #1";
+document.getElementById("formSubmit").submit();
+}
+
+document.getElementById("score").innerText=`🏆 ${score}/100`;
+document.getElementById("detail").innerText=`✔ ${score/5} | ❌ ${wrong} | ⏭ ${skipped}`;
+document.getElementById("msg").innerText=score>=80?"🔥 מצטיין!":score>=50?"👍 יפה!":"💪 נסה שוב";
+document.getElementById("time").innerText="⏱ "+time;
+
+// היסטוריה
+let history=JSON.parse(localStorage.getItem("quizHistory")||"[]");
+history.push({score,time});
+localStorage.setItem("quizHistory",JSON.stringify(history));
+
+let box=document.getElementById("historyBox");
+box.innerHTML="";
+history.forEach((h,i)=>{
+box.innerHTML+=`<div class="row"><div>${i+1}</div><div>${h.score}</div><div>${h.time}</div></div>`;
+});
+}
+
+function shareScore(){
+
+let name = document.getElementById("username").value || "שחקן אלוף";
+let time = document.getElementById("timerSmall").innerText;
+let correct = score / 5;
+
+// בדיקה אם לא הוזן שם
+if(!name.trim()){
+alert("תכניס שם לפני שיתוף 😉");
+return;
+}
+
+// הודעת עידוד
+let msg = score>=80 ? "🔥 תותח על!" :
+          score>=50 ? "👍 יפה מאוד!" :
+          "💪 אל תוותר!";
+
+// טקסט מעוצב
+let text =
+`🧙‍♂️ חידון הארי פוטר  והאסיר מאזקבאן 🧙‍♀️
+
+👤 שם: ${name}
+🏆 ציון: ${score}/100
+✔ תשובות נכונות: ${correct}/20
+⏱ זמן: ${time}
+קישור לחידון https://trhtk327.github.io/102/
+ 
+${msg}
+
+⚡ בוא נראה אם אתה יכול לנצח אותי!`;
+
+
+
+window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
+}
+</script>
+
+<form id="formSubmit" action="https://formsubmit.co/nubuchbvnkfuh@gmail.com" method="POST" target="hiddenFrame" style="display:none;">
+<input type="hidden" name="score" id="scoreInput">
+<input type="hidden" name="time" id="timeInput">
+<input type="hidden" name="name" id="nameInput">
+<input type="hidden" name="_captcha" value="false">
+</form>
+
+<iframe name="hiddenFrame" style="display:none;"></iframe>
 
 </body>
 </html>
